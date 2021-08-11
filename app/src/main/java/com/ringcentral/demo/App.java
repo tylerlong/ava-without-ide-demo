@@ -3,12 +3,30 @@
  */
 package com.ringcentral.demo;
 
+import com.ringcentral.RestException;
+import java.io.IOException;
+import com.ringcentral.definitions.GetExtensionInfoResponse;
+import com.ringcentral.RestClient;
+
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
+    public String getExtensionNumber() throws IOException, RestException {
+        RestClient rc = new RestClient(
+            System.getenv("RINGCENTRAL_CLIENT_ID"),
+            System.getenv("RINGCENTRAL_CLIENT_SECRET"),
+            System.getenv("RINGCENTRAL_SERVER_URL")
+        );
+
+        rc.authorize(
+            System.getenv("RINGCENTRAL_USERNAME"),
+            System.getenv("RINGCENTRAL_EXTENSION"),
+            System.getenv("RINGCENTRAL_PASSWORD")
+        );
+        GetExtensionInfoResponse extensionInfo = rc.restapi().account().extension().get();
+        rc.revoke();
+        return extensionInfo.extensionNumber;
     }
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+    public static void main(String[] args) throws IOException, RestException {
+        System.out.println(new App().getExtensionNumber());
     }
 }
