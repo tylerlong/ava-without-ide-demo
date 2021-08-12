@@ -11,6 +11,6 @@ import java.io.IOException;
 public class AppTest {
     @Test public void testAppHasAGreeting() throws IOException, RestException {
         App classUnderTest = new App();
-        assertNotNull("app should have a greeting", classUnderTest.getExtensionNumber());
+        assertNotNull("app should have a extension number", classUnderTest.getExtensionNumber());
     }
 }
